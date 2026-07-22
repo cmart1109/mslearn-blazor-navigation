@@ -1,22 +1,14 @@
 @page "/"
+@layout MainLayout
 @inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
 @inject OrderState OrderState
 
-<div class="top-bar active">
-    <a class="logo" href="">
-        <img src="img/logo.svg" />
-    </a>
 
-    <a href="" class="nav-tab" >
-        <img src="img/pizza-slice.svg" />
-        <div>Get Pizza</div>
-    </a>    
-</div>
 
-<div class="main">
-  <h1>Blazing Pizzas</h1>
-  <ul class="pizza-cards">
+<div class="main page-with-sidebar">
+  <div class="page-content">
+    <ul class="pizza-cards">
     @if (specials != null)
     {
       @foreach (var special in specials)
@@ -30,7 +22,8 @@
         </li>
       }
     }
-  </ul>
+    </ul>
+  </div>
 </div>
 
 @if (OrderState.ShowingConfigureDialog)

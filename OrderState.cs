@@ -41,5 +41,8 @@ public class OrderState
     
     public void ResetOrder()
     {
+        Order = new Order();
+        ConfiguringPizza = null;
+        ShowingConfigureDialog = false;
     }
 }

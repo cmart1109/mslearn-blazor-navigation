@@ -1,4 +1,5 @@
 using BlazingPizza;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,7 +29,32 @@ var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
 using (var scope = scopeFactory.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<PizzaStoreContext>();
-    if (db.Database.EnsureCreated())
+    var databaseWasCreated = db.Database.EnsureCreated();
+
+    if (!databaseWasCreated)
+    {
+        using var connection = db.Database.GetDbConnection();
+        connection.Open();
+
+        using var command = connection.CreateCommand();
+        command.CommandText = "SELECT COUNT(*) FROM sqlite_master WHERE type = 'table' AND name = 'Address'";
+        var addressTableExists = Convert.ToInt32(command.ExecuteScalar()) > 0;
+
+        if (!addressTableExists)
+        {
+            if (connection.State != System.Data.ConnectionState.Closed)
+            {
+                connection.Close();
+            }
+
+            db.Database.EnsureDeleted();
+            databaseWasCreated = db.Database.EnsureCreated();
+        }
+
+        connection.Close();
+    }
+
+    if (databaseWasCreated)
     {
         SeedData.Initialize(db);
     }

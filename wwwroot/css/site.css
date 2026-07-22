@@ -5,10 +5,19 @@ body, html {
 }
 
 body {
-    padding-top: 5rem;
+    width: 100%;
+    padding-top: 0;
     flex-direction: column;
     font-family: 'quicksand';
     overflow-y: hidden;
+}
+
+#app {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 form {
@@ -28,11 +37,10 @@ form {
     color: white;
     box-shadow: 0 1px 3px rgba(0,0,0,0.4);
     padding: 0 3rem;
-    position: fixed;
+    position: sticky;
     top: 0;
-    right: 0;
-    left: 0;
     z-index: 1030;
+    flex-shrink: 0;
 }
 
 .logo {
@@ -46,7 +54,8 @@ form {
 
 .content {
     display: flex;
-    height: 100%;
+    flex: 1 1 auto;
+    min-height: 0;
     z-index: 1;
     background-color: white;
 }
@@ -56,6 +65,17 @@ form {
     overflow-y: auto;
     background: linear-gradient(rgba(0,0,0,0) 40%, rgba(0,0,0,0.4) 80%);
     padding: 1.5rem !important;
+}
+
+.page-with-sidebar {
+    display: flex;
+    flex-direction: row;
+    min-height: 100%;
+}
+
+.page-content {
+    flex: 1 1 auto;
+    min-height: 0;
 }
 
 .nav-tab {
